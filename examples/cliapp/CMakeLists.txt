@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 include_directories(${CMAKE_SOURCE_DIR}/src/)
-set(APP_NAME GUIApp)
+set(APP_NAME CLIApp)
 message("** Configuring ${APP_NAME}")
 
 add_executable(

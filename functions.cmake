@@ -1,3 +1,16 @@
+##### Macros #####
+MACRO(SUBDIRLIST result curdir)
+    FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
+    SET(dirlist "")
+    message("Runnining subdir: ${children}")
+    FOREACH(child ${children})
+        IF(IS_DIRECTORY ${curdir}/${child})
+            LIST(APPEND dirlist ${child})
+        ENDIF()
+    ENDFOREACH()
+    SET(${result} ${dirlist})
+ENDMACRO()
+
 #### Functions #####
 function(LOAD_CMAKEFILES_IN_DIR dirName)
     message("++ Loading all CMake files in the dir: ${dirName}")
@@ -7,3 +20,11 @@ function(LOAD_CMAKEFILES_IN_DIR dirName)
         INCLUDE(${cmakeFile})
     endforeach(cmakeFile)
 endfunction(LOAD_CMAKEFILES_IN_DIR)
+
+function(ADD_DIRS_IN_DIR dirName)
+    SUBDIRLIST("SUBDIRS" ${dirName})
+    foreach(subdir ${SUBDIRS})
+        message("++ Added subdir: ${subdir}")
+        add_subdirectory(${subdir})
+    endforeach(subdir)
+endfunction(ADD_DIRS_IN_DIR)
