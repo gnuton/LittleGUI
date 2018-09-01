@@ -1,2 +1,2 @@
 # LittleGUI
-An experimental tiny lib for building apps with a GUI. 
+Just a fun project made during my spare time during my summer vacation.
