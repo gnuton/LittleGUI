@@ -2,7 +2,6 @@
 MACRO(SUBDIRLIST result curdir)
     FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
     SET(dirlist "")
-    message("Runnining subdir: ${children}")
     FOREACH(child ${children})
         IF(IS_DIRECTORY ${curdir}/${child})
             LIST(APPEND dirlist ${child})

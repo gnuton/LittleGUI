@@ -54,9 +54,27 @@ add_definitions(-DVITA_TITLEID="${VITA_TITLEID}")
 # Note that we make sure not to overwrite previous flags
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+
 # Optional. You can specify more param.sfo flags this way.
 set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d PARENTAL_LEVEL=1")
 
 file(GLOB_RECURSE res_files RELATIVE ${CMAKE_SOURCE_DIR} assets/*.png assets/*.jpeg assets/*.yml assets/*.ttf assets/*.wav assets/*.ogg)
 add_resources(PROJECT_RESOURCES ${res_files})
 
+list(INSERT
+        TARGET_EXTERNAL_LIBS
+        vita2d
+        SceDisplay_stub # Required by: vita2d
+        SceGxm_stub # Required by: vita2d
+        SceCommonDialog_stub # Required by: vita2d
+        SceSysmodule_stub # Required by: vita2d
+        SceTouch_stub
+        SceCtrl_stub
+        png
+        jpeg
+        z # required by png for crc32
+        SceNet_stub
+        SceNetCtl_stub
+        freetype
+        ScePower_stub
+        SceRegistryMgr_stub)

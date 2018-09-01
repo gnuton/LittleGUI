@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.12)
 
 set(CMAKE_CXX_STANDARD 14)
+set(LIB_NAME freaklib)
+message("** Configuring ${LIB_NAME}")
 
 add_library(
-        freaklib
+        ${LIB_NAME}
         library.cpp
         library.h)
 
-#install(TARGETS freaklib
-#    LIBRARY DESTINATION lib
-#    ARCHIVE DESTINATION lib)
+target_link_libraries(
+        ${LIB_NAME}
+        ${TARGET_EXTERNAL_LIBS})

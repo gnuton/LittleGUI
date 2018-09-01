@@ -1,2 +1,2 @@
 # LittleGUI
-Just a fun project made during my spare time during my summer vacation.
+Just a fun project made during my summer vacation spare time.

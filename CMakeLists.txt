@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.12)
 INCLUDE("functions.cmake")
 set(CMAKE_CXX_STANDARD 14)
 
-# Load hardware profiles
-LOAD_CMAKEFILES_IN_DIR("hw")
+
+# Load hardware target profiles
+SET(TARGET_EXTERNAL_LIBS)
+LOAD_CMAKEFILES_IN_DIR("target")
 project(LittleGUI)
 
 # Build code in these dirs
