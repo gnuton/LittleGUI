@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.12)
 include_directories(${CMAKE_SOURCE_DIR}/src/)
 set(APP_NAME CLIApp)
 set("APP_VERSION" "1.00")
-
 message("** Configuring ${APP_NAME} ${APP_VERSION}")
 
 add_executable(
@@ -14,6 +13,8 @@ target_link_libraries(
         ${APP_NAME}
         ${TARGET_EXTERNAL_LIBS}
         freaklib)
+
+INIT_VITA_BUILD("DEV0APP00")
 
 list(INSERT VPK_BUNDLED_FILES
         FILE sce_sys/icon0.png sce_sys/icon0.png
