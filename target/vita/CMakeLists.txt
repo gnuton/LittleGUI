@@ -71,15 +71,20 @@ MACRO(INIT_VITA_BUILD TITLE_ID)
 
     # Optional version string to show in LiveArea's more info screen
     option(DEBUGNET "Enable debugnet for logging" ON)
+    message("+++++ ${CMAKE_BUILD_TYPE}")
 
-    if (DEBUGNET)
-        add_definitions(-g)
-        add_definitions(-DDEBUGNET)
-        target_link_libraries(${APP_NAME} debugnet)
-        file(STRINGS "debugnetip.txt" DEBUGNETIP)
-        add_definitions(-DDEBUGNETIP="${DEBUGNETIP}")
-        message("++ DEBUGNET is on. Your app will be sending msg to ${DEBUGNETIP}.")
-    endif ()
+    if (CMAKE_BUILD_TYPE MATCHES DEBUG)
+        message("+++++++++++++ Debug build enabled")
+        if (DEBUGNET)
+            add_definitions(-DDEBUGNET)
+            target_link_libraries(${APP_NAME} debugnet)
+            file(STRINGS "debugnetip.txt" DEBUGNETIP)
+            add_definitions(-DDEBUGNETIP="${DEBUGNETIP}")
+            message("++ DEBUGNET is on. Your app will be sending msg to ${DEBUGNETIP}.")
+        endif ()
+    endif (CMAKE_BUILD_TYPE MATCHES DEBUG )
+
+
 
     ## Flags and includes for building
     # Note that we make sure not to overwrite previous flags
