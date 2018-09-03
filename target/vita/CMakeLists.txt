@@ -34,33 +34,7 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     endif ()
 endif ()
 
-# This line adds Vita helper macros, must go after project definition in order
-# to build Vita specific artifacts (self/vpk).
-include("$ENV{VITASDK}/share/vita.cmake" REQUIRED)
-
-
-## Configuration options for this app
-# Display name (under bubble in LiveArea)
-set(VITA_APP_NAME "Hello World")
-# Unique ID must be exactly 9 characters. Recommended: XXXXYYYYY where X =
-# unique string of developer and Y = a unique number for this app
-set(VITA_TITLEID "VSDK00005")
-# Optional version string to show in LiveArea's more info screen
-set(VITA_VERSION "01.00")
-option(DEBUGNET "Enable debugnet for logging" ON)
-add_definitions(-DVITA_TITLEID="${VITA_TITLEID}")
-
-## Flags and includes for building
-# Note that we make sure not to overwrite previous flags
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
-
-# Optional. You can specify more param.sfo flags this way.
-set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d PARENTAL_LEVEL=1")
-
-file(GLOB_RECURSE res_files RELATIVE ${CMAKE_SOURCE_DIR} assets/*.png assets/*.jpeg assets/*.yml assets/*.ttf assets/*.wav assets/*.ogg)
-add_resources(PROJECT_RESOURCES ${res_files})
-
+# List of basic PS Vita external libs required by the lib
 list(INSERT
         TARGET_EXTERNAL_LIBS
         vita2d
@@ -78,3 +52,38 @@ list(INSERT
         freetype
         ScePower_stub
         SceRegistryMgr_stub)
+
+FUNCTION(BUILD_VPK VITA_VERSION, VPK_BUNDLED_FILES)
+    # This line adds Vita helper macros, must go after project definition in order
+    # to build Vita specific artifacts (self/vpk).
+    include("$ENV{VITASDK}/share/vita.cmake" REQUIRED)
+
+
+    ## Configuration options for this app
+    # Display name (under bubble in LiveArea)
+    set(VITA_APP_NAME ${APP_NAME})
+    # Unique ID must be exactly 9 characters. Recommended: XXXXYYYYY where X =
+    # unique string of developer and Y = a unique number for this app
+    set(VITA_TITLEID ${APP_NAME})
+
+    # Optional version string to show in LiveArea's more info screen
+    option(DEBUGNET "Enable debugnet for logging" ON)
+    add_definitions(-DVITA_TITLEID="${VITA_TITLEID}")
+
+    ## Flags and includes for building
+    # Note that we make sure not to overwrite previous flags
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+
+    # Optional. You can specify more param.sfo flags this way.
+    set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d PARENTAL_LEVEL=1")
+
+    file(GLOB_RECURSE res_files RELATIVE ${CMAKE_SOURCE_DIR} assets/*.png assets/*.jpeg assets/*.yml assets/*.ttf assets/*.wav assets/*.ogg)
+    add_resources(PROJECT_RESOURCES ${res_files})
+
+    vita_create_self(${APP_NAME}.self ${APP_NAME})
+    vita_create_vpk(${APP_NAME}.vpk ${VITA_TITLEID} ${APP_NAME}.self
+            VERSION ${VITA_VERSION}
+            NAME ${VITA_APP_NAME}
+            ${VPK_BUNDLED_FILES})
+
+ENDFUNCTION(BUILD_VPK)
