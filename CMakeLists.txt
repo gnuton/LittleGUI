@@ -1,14 +1,24 @@
 cmake_minimum_required(VERSION 3.12)
-INCLUDE("functions.cmake")
-set(CMAKE_CXX_STANDARD 14)
-
-
-# Load hardware target profiles
-SET(TARGET_EXTERNAL_LIBS)
-LOAD_CMAKEFILES_IN_DIR("target")
 project(LittleGUI)
 
-# Build code in these dirs
-add_subdirectory(src)
-add_subdirectory(examples)
-add_subdirectory(tests)
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(.)
+include_directories(docs)
+include_directories(examples)
+include_directories(src)
+include_directories(target)
+include_directories(tests)
+
+add_executable(LittleGUI
+        examples/cliapp/main.cpp
+        examples/guiapp/main.cpp
+        src/library.cpp
+        src/library.h
+        target/vita/CMakeLists.txt
+        target/vita/vita.cmake
+        tests/CMakeLists.txt
+        CMakeLists.txt
+        functions.cmake
+        LICENSE
+        README.md)
