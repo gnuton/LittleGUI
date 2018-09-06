@@ -1,13 +1,13 @@
-message("** Configuring toolchain for Vita")
-
 if (TARGET_DEVICE MATCHES VITA)
-    include(vita.cmake)
+    message("** Configuring toolchain for Vita")
 
     if (DEFINED ENV{VITASDK})
         set(CMAKE_TOOLCHAIN_FILE "$ENV{VITASDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
     else ()
         message(FATAL_ERROR "Please define VITASDK to point to your SDK path!")
     endif ()
+
+    include(target/vita/vita.cmake)
 
     # List of basic PS Vita external libs required by the lib
     list(INSERT

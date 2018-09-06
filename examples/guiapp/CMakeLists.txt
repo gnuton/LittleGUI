@@ -24,6 +24,5 @@ if(TARGET_DEVICE MATCHES VITA)
             FILE sce_sys/livearea/contents/template.xml sce_sys/livearea/contents/template.xml
             FILE assets/fonts/segoeui.ttf resources/fonts/segoeui.ttf)
 
-    BUILD_VPK(APP_VERSION VPK_BUNDLED_FILES)
-
+    BUILD_VPK("1.00" VPK_BUNDLED_FILES)
 endif()
