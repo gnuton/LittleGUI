@@ -1,0 +1,26 @@
+git:
+  depth: 1
+
+os: linux
+language: cpp
+dist: xenial
+sudo: required
+
+install:
+  - export VITASDK=/usr/local/vitasdk
+  - export PATH=$VITASDK/bin:$PATH
+  - cd ${TRAVIS_BUILD_DIR}
+  - git clone https://github.com/vitasdk/vdpm
+  - cd vdpm
+  - ./bootstrap-vitasdk.sh
+  - ./install-all.sh
+  
+script:
+  - cd ${TRAVIS_BUILD_DIR}
+  - mkdir build-pc && cd build-pc
+  - cmake -DCMAKE_BUILD_TYPE=Release ..
+  - make
+  - cd ${TRAVIS_BUILD_DIR}
+  - mkdir build-vita && cd build-vita
+  - cmake -DCMAKE_BUILD_TYPE=Release -DTARGET_DEVICE=VITA ..
+  - make
