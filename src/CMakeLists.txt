@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.12)
-
 set(CMAKE_CXX_STANDARD 14)
 set(LIB_NAME freaklib)
 message("** Configuring ${LIB_NAME}")
