@@ -6,8 +6,9 @@ language: cpp
 dist: xenial
 sudo: required
 
+before_install:
+  - sudo apt-get install -y libgcc1
 install:
-  - apt install libgcc1
   - export VITASDK=/usr/local/vitasdk
   - export PATH=$VITASDK/bin:$PATH
   - cd ${TRAVIS_BUILD_DIR}
