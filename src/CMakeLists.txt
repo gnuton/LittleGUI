@@ -1,12 +1,12 @@
-set(CMAKE_CXX_STANDARD 14)
-set(LIB_NAME freaklib)
-message("** Configuring ${LIB_NAME}")
+SET(CMAKE_CXX_STANDARD 14)
+SET(LIB_NAME freaklib)
+MESSAGE("** Configuring ${LIB_NAME}")
 
-add_library(
+ADD_LIBRARY(
         ${LIB_NAME}
         library.cpp
         library.h)
 
-target_link_libraries(
+TARGET_LINK_LIBRARIES(
         ${LIB_NAME}
         ${TARGET_EXTERNAL_LIBS})
