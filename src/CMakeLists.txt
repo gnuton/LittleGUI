@@ -4,6 +4,8 @@ MESSAGE("** Configuring ${LIB_NAME}")
 
 ADD_LIBRARY(
         ${LIB_NAME}
+        core/Macros.h
+        core/Signal.h
         library.cpp
         library.h)
 

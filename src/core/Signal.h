@@ -5,8 +5,7 @@
 
 #include <functional>
 #include <map>
-#include <utils/macros.h>
-#include <utils/Logger.h>
+#include "Macros.h"
 
 /** A signal object may call multiple slots with the
  *  same signature. You can connect functions to the signal
@@ -76,7 +75,7 @@ public:
             try {
                 it.second(p...);
             } catch (const std::exception& e) {
-                WARN_LOG("Failed to call the slot! Problem:" << e.what());
+                //WARN_LOG("Failed to call the slot! Problem:" << e.what());
             }
         }
     }
