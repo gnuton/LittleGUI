@@ -10,7 +10,7 @@ add_executable(
 target_link_libraries(
         ${APP_NAME}
         ${TARGET_EXTERNAL_LIBS}
-        freaklib)
+        littlegui)
 
 if(TARGET_DEVICE MATCHES VITA)
     INIT_VITA_BUILD("DEV0APP00")

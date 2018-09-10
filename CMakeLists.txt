@@ -12,6 +12,7 @@ LOAD_CMAKEFILES_IN_DIR("target")
 PROJECT(LittleGUI)
 
 # Build code in these dirs
+ADD_SUBDIRECTORY(third_party)
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(examples)
 ADD_SUBDIRECTORY(tests)

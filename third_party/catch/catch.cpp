@@ -1,0 +1,1 @@
+// Empty file needed to make CMake add_lib happy

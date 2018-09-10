@@ -1,6 +1,6 @@
 if (TARGET_DEVICE MATCHES VITA)
     message("** Configuring Build for Playstation Vita")
-
+    add_compile_definitions(TARGET_VITA)
     if (DEFINED ENV{VITASDK})
         set(CMAKE_TOOLCHAIN_FILE "$ENV{VITASDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
     else ()
