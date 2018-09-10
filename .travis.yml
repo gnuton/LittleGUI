@@ -7,7 +7,9 @@ dist: xenial
 sudo: required
 
 before_install:
-  - sudo apt-get install -y libgcc1
+  - sudo apt-get install -y libgcc1 python-pip
+  - sudo apt-get uninstall -y cmake
+  - sudo pip install cmake
 install:
   - export VITASDK=/usr/local/vitasdk
   - export PATH=$VITASDK/bin:$PATH
