@@ -6,10 +6,10 @@ ADD_LIBRARY(
         ${LIB_NAME}
         core/Macros.h
         core/Signal.h
-        #core/Object.cpp
-        #core/Object.h
         library.cpp
-        library.h)
+        library.h
+        core/LGObject.cpp
+        core/LGObject.h core/Builder.h)
 
 TARGET_LINK_LIBRARIES(
         ${LIB_NAME}

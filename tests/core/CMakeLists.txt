@@ -13,7 +13,8 @@ include_directories("${CATCH_INCLUDE_DIRS}")
 add_executable(
         ${APP_NAME}
         Main.cpp
-        Signal.cpp)
+        Signal.cpp
+        LGObject.cpp)
 
 target_link_libraries(
         ${APP_NAME}

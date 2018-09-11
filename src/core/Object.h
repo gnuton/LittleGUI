@@ -20,6 +20,7 @@
  * The destructor will be automatically invoked when the shared_ptr count reaches zero.
  */
 
+
 class Object
 {
      NO_COPY_AND_ASSIGN(Object);
@@ -65,7 +66,7 @@ public:
      struct ObjectZComparator {
         bool operator() (Object* lhs, Object* rhs) const
         {
-            DEBUG_LOG("Object " << this << " is comparing those two children: " << lhs << " " << rhs);
+            //DEBUG_LOG("Object " << this << " is comparing those two children: " << lhs << " " << rhs);
             return lhs->z < rhs->z;
         }
     };
@@ -81,6 +82,7 @@ private:
     bool removeChild(Object* child);
     bool addChild(Object* child);
     Object *parent;
+
 };
 
 #endif // OBJECT_H
