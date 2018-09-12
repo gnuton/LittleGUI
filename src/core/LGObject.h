@@ -16,12 +16,12 @@ public:
     virtual ~LGObject();
     const string &getName() const;
     void setName(const string &name);
-    const weak_ptr<LGObject> getParent() const;
+    const weak_ptr<LGObject> &getParent() const;
     void setParent(const weak_ptr<LGObject> &parent);
 
 private:
     string name;
-    shared_ptr<LGObject> parent;
+    weak_ptr<LGObject> parent;
 };
 
 

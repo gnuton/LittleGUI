@@ -16,11 +16,11 @@ void LGObject::setName(const string &name) {
     LGObject::name = name;
 }
 
-const weak_ptr<LGObject> LGObject::getParent() const {
+const weak_ptr<LGObject> &LGObject::getParent() const {
     return parent;
 }
 
 void LGObject::setParent(const weak_ptr<LGObject> &parent) {
-    LGObject::parent = parent.lock();
+    LGObject::parent = parent;
 }
 

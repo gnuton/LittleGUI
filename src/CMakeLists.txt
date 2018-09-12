@@ -9,7 +9,7 @@ ADD_LIBRARY(
         library.cpp
         library.h
         core/LGObject.cpp
-        core/LGObject.h core/Builder.h)
+        core/LGObject.h)
 
 TARGET_LINK_LIBRARIES(
         ${LIB_NAME}
