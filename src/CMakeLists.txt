@@ -6,6 +6,7 @@ ADD_LIBRARY(
         ${LIB_NAME}
         core/Macros.h
         core/Signal.h
+        core/Property.h
         library.cpp
         library.h
         core/LGObject.cpp
