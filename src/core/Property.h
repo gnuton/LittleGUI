@@ -77,7 +77,7 @@ public:
 
     // connects two Properties to each other. If the source's
     // value is changed, this' value will be changed as well
-    virtual void connect_from(Property<T> const& source) {
+    virtual void connectFrom(Property<T> const &source) {
         disconnect();
         connection_ = &source;
         connectionId_ = source.onChange().connect([this](T const& value){

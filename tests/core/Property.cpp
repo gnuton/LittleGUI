@@ -1,7 +1,6 @@
 #include <catch.hpp>
 #include <core/Property.h>
 
-#include <strstream>
 #include <sstream>
 
 TEST_CASE("Check that connected slots are notified when a property value is changed") {
@@ -45,4 +44,29 @@ TEST_CASE("Check stream operator") {
     std::stringstream sstr("42");
     sstr >> Integer;
     REQUIRE(res == 42);
+}
+
+TEST_CASE("Check connection among properties") {
+    bool res;
+    Property<float> InputValue;
+    Property<float> OutputValue;
+    Property<bool>  CriticalSituation;
+
+    OutputValue.connectFrom(InputValue);
+
+    OutputValue.onChange().connect([&](float val) {
+        if (val > 0.5f) CriticalSituation = true;
+        else            CriticalSituation = false;
+    });
+
+    CriticalSituation.onChange().connect([&](bool val) {
+        if (val) res = val;
+    });
+
+    InputValue = 0.2;
+    REQUIRE_FALSE(res);
+    InputValue = 0.4;
+    REQUIRE_FALSE(res);
+    InputValue = 0.6;
+    REQUIRE(res);
 }
