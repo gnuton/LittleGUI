@@ -1,8 +1,7 @@
 #include "LGObject.h"
 #include <iostream>
 
-LGObject::LGObject(weak_ptr<LGObject> parent) {
-    LGObject::parent = parent;
+LGObject::LGObject() {
 }
 
 LGObject::~LGObject() {

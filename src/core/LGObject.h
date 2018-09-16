@@ -8,13 +8,27 @@
 
 using namespace std;
 
-class LGObject : public enable_shared_from_this<LGObject> {
-    NO_COPY_AND_ASSIGN(LGObject);
-
-protected:
-    LGObject(weak_ptr<LGObject> parent);
+class LGObject;
+template <class T>
+class ObjectBuilder {
 
 public:
+    static shared_ptr<T> create(weak_ptr<LGObject> parent = weak_ptr<LGObject>()) {
+        auto instance = shared_ptr<T>(new T);
+        instance->setParent(parent);
+        return instance;
+    }
+};
+
+class LGObject : public enable_shared_from_this<LGObject>, public ObjectBuilder<LGObject> {
+    NO_COPY_AND_ASSIGN(LGObject);
+    friend ObjectBuilder<LGObject>;
+
+protected:
+    LGObject();
+
+public:
+    //static shared_ptr<LGObject> create(weak_ptr<LGObject> parent = weak_ptr<LGObject>()) {}
     virtual ~LGObject();
     const string &getName() const;
     void setName(const string &name);
