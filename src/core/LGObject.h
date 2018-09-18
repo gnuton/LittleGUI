@@ -7,21 +7,19 @@
 #include <mutex>
 #include <atomic>
 
-using namespace std;
-
 class LGObject;
 template <class T>
 class ObjectBuilder {
 
 public:
-    static shared_ptr<T> create(weak_ptr<LGObject> parent = weak_ptr<LGObject>()) {
-        auto instance = shared_ptr<T>(new T);
+    static std::shared_ptr<T> create(std::weak_ptr<LGObject> parent = std::weak_ptr<LGObject>()) {
+        auto instance = std::shared_ptr<T>(new T);
         instance->setParent(parent);
         return instance;
     }
 };
 
-class LGObject : public enable_shared_from_this<LGObject>, public ObjectBuilder<LGObject> {
+class LGObject : public std::enable_shared_from_this<LGObject>, public ObjectBuilder<LGObject> {
     NO_COPY_AND_ASSIGN(LGObject);
     friend ObjectBuilder<LGObject>;
 
@@ -30,25 +28,25 @@ protected:
 
 public:
     virtual ~LGObject();
-    const string &getName() const;
-    void setName(const string &name);
+    const std::string &getName() const;
+    void setName(const std::string &name);
 
-    const weak_ptr<LGObject> &getParent() const;
-    void setParent(const weak_ptr<LGObject> &parent);
+    const std::weak_ptr<LGObject> &getParent() const;
+    void setParent(const std::weak_ptr<LGObject> &parent);
 
     bool hasChildren() const;
-    bool isChild(const weak_ptr<LGObject> &child) const;
+    bool isChild(const std::weak_ptr<LGObject> &child) const;
 
 private:
-    bool removeChild(weak_ptr<LGObject> child);
-    bool addChild(weak_ptr<LGObject> child);
+    bool removeChild(std::weak_ptr<LGObject> child);
+    bool addChild(std::weak_ptr<LGObject> child);
 
 private:
-    string name;
-    weak_ptr<LGObject> parent;
-    set<shared_ptr<LGObject>> children;
+    std::string name;
+    std::weak_ptr<LGObject> parent;
+    std::set<std::shared_ptr<LGObject>> children;
 
-    mutex mtx;
+    std::mutex mtx;
 };
 
 

@@ -55,7 +55,7 @@ TEST_CASE ("Check that create static method works along with inheritance") {
 // ?????
 TEST_CASE("Check casting with static_pointer_cast ") {
     auto parent = MyObj::create();
-    auto castedChild = static_pointer_cast<MyChildObj2>(parent);
+    auto castedChild = std::static_pointer_cast<MyChildObj2>(parent);
     REQUIRE(castedChild->methodB());
     REQUIRE(parent.use_count() == 2);
     REQUIRE(castedChild.get() == parent.get());
@@ -72,14 +72,14 @@ TEST_CASE("Check parent getter/setter and that parent in constructor is correcly
 
 TEST_CASE("Check name getter and setters") {
     auto parent = MyObj::create();
-    const string name = "TEST";
+    const std::string name = "TEST";
     parent->setName(name);
     REQUIRE(parent->getName() == name);
 }
 
 TEST_CASE("Children gets automatically destroyed when parent is destroyed") {
-    weak_ptr<LGObject> child1;
-    weak_ptr<LGObject> child2;
+    std::weak_ptr<LGObject> child1;
+    std::weak_ptr<LGObject> child2;
     // Scope where the parents live
     {
         auto parent = MyObj::create();
@@ -87,7 +87,7 @@ TEST_CASE("Children gets automatically destroyed when parent is destroyed") {
         child2 = MyObj::create(child1);
     }
     REQUIRE(child1.expired() == true);
-    REQUIRE(child2.lock() == shared_ptr<LGObject>());
+    REQUIRE(child2.lock() == std::shared_ptr<LGObject>());
 }
 
 TEST_CASE("Check that children are added to parent") {
@@ -100,8 +100,8 @@ TEST_CASE("Check that children are added to parent") {
 }
 
 TEST_CASE("If the parent shared_ptr is lost, it and its children get destroyed") {
-    weak_ptr<LGObject> parent = MyObj::create();
-    weak_ptr<LGObject> child1 = MyObj::create(parent);
+    std::weak_ptr<LGObject> parent = MyObj::create();
+    std::weak_ptr<LGObject> child1 = MyObj::create(parent);
     REQUIRE(parent.lock().use_count() == 0);
     REQUIRE(child1.lock().use_count() == 0);
     REQUIRE(parent.expired());
@@ -110,9 +110,9 @@ TEST_CASE("If the parent shared_ptr is lost, it and its children get destroyed")
 
 TEST_CASE("Children obj shared_ptrs must be hold just by the parent and just once.") {
     auto parent = MyObj::create();
-    weak_ptr<LGObject> child1 = MyObj::create(parent);
-    weak_ptr<LGObject> child2 = MyObj::create(parent);
-    weak_ptr<LGObject> child3 = MyObj::create(parent);
+    std::weak_ptr<LGObject> child1 = MyObj::create(parent);
+    std::weak_ptr<LGObject> child2 = MyObj::create(parent);
+    std::weak_ptr<LGObject> child3 = MyObj::create(parent);
 
     REQUIRE(parent.use_count() == 1);
     REQUIRE(child1.lock().use_count() == 2); // 2 => 1 is shared_ptr is child1.lock() + 1 in parent::children
@@ -137,7 +137,7 @@ TEST_CASE("Testing mutex for setParent ") {
     //int count = 0;
 
     while (--i) {
-        vector<thread *> threads;
+        std::vector<std::thread *> threads;
         int j = n;
         auto l = [&]() {
             const auto p = child->getParent().lock();
@@ -145,7 +145,7 @@ TEST_CASE("Testing mutex for setParent ") {
             //count += (p == parent1) ? 1 : -1;
             child->setParent(p == parent1 ? parent2 : parent1);
         };
-        while (--j) threads.push_back(new thread(l));
+        while (--j) threads.push_back(new std::thread(l));
         for (auto t : threads) t->join();
         for (auto t : threads) delete t;
     }
