@@ -1,6 +1,9 @@
+#include <iostream>
+#include <thread>
+#include <numeric>
+
 #include <catch.hpp>
 #include <core/LGObject.h>
-#include <iostream>
 
 class MyObj : public ObjectBuilder<MyObj>, public LGObject {
     NO_COPY_AND_ASSIGN(MyObj)
@@ -15,17 +18,20 @@ public:
 
 class MyChildObj : public ObjectBuilder<MyChildObj>, public MyObj {
     NO_COPY_AND_ASSIGN(MyChildObj)
+
     friend ObjectBuilder<MyChildObj>;
 protected:
     MyChildObj() : MyObj() {}
 
 public:
     using ObjectBuilder<MyChildObj>::create;
-    bool methodA() {return true;}
+
+    bool methodA() { return true; }
 };
 
 class MyChildObj2 : public ObjectBuilder<MyChildObj2>, public MyChildObj {
     NO_COPY_AND_ASSIGN(MyChildObj2)
+
     friend ObjectBuilder<MyChildObj2>;
 
 protected:
@@ -33,7 +39,8 @@ protected:
 
 public:
     using ObjectBuilder<MyChildObj2>::create;
-    bool methodB() {return true;}
+
+    bool methodB() { return true; }
 };
 
 TEST_CASE ("Check that create static method works along with inheritance") {
@@ -117,4 +124,30 @@ TEST_CASE("Check that isChild works") {
     auto child1 = MyObj::create(parent);
     REQUIRE(parent->isChild(child1));
     REQUIRE_FALSE(parent->isChild(notAChild));
+}
+
+//
+TEST_CASE("Testing mutex for setParent ") {
+    auto parent1 = MyObj::create();
+    auto parent2 = MyObj::create();
+    auto child = MyObj::create(parent1);
+
+    int n = 100; // NOTE this should be big enough to generate some clashes which can be handled by mutexes
+    int i = n;
+    //int count = 0;
+
+    while (--i) {
+        vector<thread *> threads;
+        int j = n;
+        auto l = [&]() {
+            const auto p = child->getParent().lock();
+            //cout << i << " " << j << " Parent " << p << endl;
+            //count += (p == parent1) ? 1 : -1;
+            child->setParent(p == parent1 ? parent2 : parent1);
+        };
+        while (--j) threads.push_back(new thread(l));
+        for (auto t : threads) t->join();
+        for (auto t : threads) delete t;
+    }
+    //REQUIRE(count == 0); /// this check is not reliable
 }
