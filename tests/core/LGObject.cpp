@@ -3,6 +3,8 @@
 #include <iostream>
 
 class MyObj : public ObjectBuilder<MyObj>, public LGObject {
+    NO_COPY_AND_ASSIGN(MyObj)
+
     friend ObjectBuilder<MyObj>;
 protected:
     MyObj() : LGObject() {}
@@ -12,6 +14,7 @@ public:
 };
 
 class MyChildObj : public ObjectBuilder<MyChildObj>, public MyObj {
+    NO_COPY_AND_ASSIGN(MyChildObj)
     friend ObjectBuilder<MyChildObj>;
 protected:
     MyChildObj() : MyObj() {}
@@ -22,6 +25,7 @@ public:
 };
 
 class MyChildObj2 : public ObjectBuilder<MyChildObj2>, public MyChildObj {
+    NO_COPY_AND_ASSIGN(MyChildObj2)
     friend ObjectBuilder<MyChildObj2>;
 
 protected:
@@ -41,7 +45,8 @@ TEST_CASE ("Check that create static method works along with inheritance") {
     REQUIRE(child2->methodB());
 }
 
-TEST_CASE("Check casting with static_pointer_cast") {
+// ?????
+TEST_CASE("Check casting with static_pointer_cast ") {
     auto parent = MyObj::create();
     auto castedChild = static_pointer_cast<MyChildObj2>(parent);
     REQUIRE(castedChild->methodB());
@@ -53,8 +58,7 @@ TEST_CASE("Check parent getter/setter and that parent in constructor is correcly
     auto parent = MyObj::create();
     auto child = MyObj::create(parent);
 
-    const weak_ptr<LGObject> expectedParent = weak_ptr<LGObject>();
-    REQUIRE(parent->getParent().lock() == expectedParent.lock());
+    REQUIRE(parent->getParent().expired());
     REQUIRE(child->getParent().lock() == parent);
 }
 
@@ -97,12 +101,20 @@ TEST_CASE("If the parent shared_ptr is lost, it and its children get destroyed")
     REQUIRE(child1.expired());
 }
 
-TEST_CASE("Parent object must not have any shared_ptr reference in its children") {
+TEST_CASE("Children obj shared_ptrs must be hold just by the parent and just once.") {
     auto parent = MyObj::create();
     weak_ptr<LGObject> child1 = MyObj::create(parent);
     weak_ptr<LGObject> child2 = MyObj::create(parent);
     weak_ptr<LGObject> child3 = MyObj::create(parent);
 
     REQUIRE(parent.use_count() == 1);
-    REQUIRE(child1.lock().use_count() == 1);
+    REQUIRE(child1.lock().use_count() == 2); // 2 => 1 is shared_ptr is child1.lock() + 1 in parent::children
+}
+
+TEST_CASE("Check that isChild works") {
+    auto parent = MyObj::create();
+    auto notAChild = MyObj::create();
+    auto child1 = MyObj::create(parent);
+    REQUIRE(parent->isChild(child1));
+    REQUIRE_FALSE(parent->isChild(notAChild));
 }

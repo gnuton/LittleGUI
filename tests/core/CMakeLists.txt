@@ -1,5 +1,7 @@
 set(APP_NAME TestCore)
 
+find_package (Threads REQUIRED)
+
 # Add littlegui lib
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/src")
 find_package(LittleGUI REQUIRED)
@@ -21,5 +23,6 @@ target_link_libraries(
         ${APP_NAME}
         ${LITTLEGUI_LIBRARIES}
         ${CATCH_LIBRARIES}
+        Threads::Threads
         ~/GITonio/LittleGUI/build/third_party/catch/libcatch.a
 )

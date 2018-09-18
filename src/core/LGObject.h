@@ -5,6 +5,7 @@
 #include <memory>
 #include <set>
 #include <mutex>
+#include <atomic>
 
 using namespace std;
 
@@ -28,7 +29,6 @@ protected:
     LGObject();
 
 public:
-    //static shared_ptr<LGObject> create(weak_ptr<LGObject> parent = weak_ptr<LGObject>()) {}
     virtual ~LGObject();
     const string &getName() const;
     void setName(const string &name);
@@ -37,6 +37,7 @@ public:
     void setParent(const weak_ptr<LGObject> &parent);
 
     bool hasChildren() const;
+    bool isChild(const weak_ptr<LGObject> &child) const;
 
 private:
     bool removeChild(weak_ptr<LGObject> child);
