@@ -10,7 +10,7 @@ ADD_LIBRARY(
         library.cpp
         library.h
         core/LGObject.cpp
-        core/LGObject.h)
+        core/LGObject.h core/Mutex.h core/Logger.cpp core/Logger.h core/Singleton.h)
 
 TARGET_LINK_LIBRARIES(
         ${LIB_NAME}

@@ -17,7 +17,7 @@ add_executable(
         Main.cpp
         Signal.cpp
         LGObject.cpp
-        Property.cpp Property.cpp)
+        Property.cpp Property.cpp Logger.cpp Singleton.cpp)
 
 target_link_libraries(
         ${APP_NAME}
