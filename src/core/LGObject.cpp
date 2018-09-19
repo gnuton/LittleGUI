@@ -8,31 +8,31 @@ LGObject::~LGObject() {
 }
 
 const std::string &LGObject::getName() const {
-    return name;
+    return name_;
 }
 
 void LGObject::setName(const std::string &name) {
-    LGObject::name = name;
+    LGObject::name_ = name;
 }
 
 const std::weak_ptr<LGObject> &LGObject::getParent() const {
-    return parent;
+    return parent_;
 }
 
 void LGObject::setParent(const std::weak_ptr<LGObject> &parent) {
-    std::lock_guard<std::mutex> lock(mtx);
+    std::lock_guard<std::mutex> lock(mtx_);
 
-    if (LGObject::parent.lock() == parent.lock())
+    if (LGObject::parent_.lock() == parent.lock())
         return;
 
-    LGObject::parent = parent;
+    LGObject::parent_ = parent;
     if (!parent.expired())
         parent.lock()->addChild(shared_from_this());
 }
 
 bool LGObject::removeChild(std::weak_ptr<LGObject> child) {
     //lock_guard<mutex> lock(mtx);
-    return !child.expired() && children.erase(child.lock());
+    return !child.expired() && children_.erase(child.lock());
 }
 
 bool LGObject::addChild(std::weak_ptr<LGObject> child) {
@@ -40,18 +40,18 @@ bool LGObject::addChild(std::weak_ptr<LGObject> child) {
 
     if (child.expired())
         return false;
-    children.insert(child.lock());
+    children_.insert(child.lock());
     return true;
 }
 
 bool LGObject::hasChildren() const {
-    return children.size();
+    return children_.size();
 }
 
 bool LGObject::isChild(const std::weak_ptr<LGObject> &child) const {
     if (child.expired())
         return false;
-    return (children.find(child.lock()) != children.end());
+    return (children_.find(child.lock()) != children_.end());
 }
 
 

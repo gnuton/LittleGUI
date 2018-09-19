@@ -164,17 +164,17 @@ template<> inline Property<bool>::Property()
 
 // stream operators
 template<typename T>
-std::ostream& operator<<(std::ostream& out_stream, Property<T> const& val) {
-    out_stream << val.get();
-    return out_stream;
+std::ostream& operator<<(std::ostream& outStream, Property<T> const& val) {
+    outStream << val.get();
+    return outStream;
 }
 
 template<typename T>
-std::istream& operator>>(std::istream& in_stream, Property<T>& val) {
+std::istream& operator>>(std::istream& inStream, Property<T>& val) {
     T tmp;
-    in_stream >> tmp;
+    inStream >> tmp;
     val.set(tmp);
-    return in_stream;
+    return inStream;
 }
 
 #endif //LITTLEGUI_PROPERTY_H

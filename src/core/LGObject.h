@@ -42,11 +42,11 @@ private:
     bool addChild(std::weak_ptr<LGObject> child);
 
 private:
-    std::string name;
-    std::weak_ptr<LGObject> parent;
-    std::set<std::shared_ptr<LGObject>> children;
+    std::string name_;
+    std::weak_ptr<LGObject> parent_;
+    std::set<std::shared_ptr<LGObject>> children_;
 
-    std::mutex mtx;
+    std::mutex mtx_;
 };
 
 

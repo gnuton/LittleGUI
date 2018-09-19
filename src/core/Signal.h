@@ -28,11 +28,10 @@
  */
 template <typename... Args>
 class Signal {
-
-public:
     NO_COPY_AND_ASSIGN(Signal)
+public:
 
-    Signal() : current_id_(0), slots_(new std::map<int, std::function<void(Args...)>>) {}
+    Signal() : currentId_(0), slots_(new std::map<int, std::function<void(Args...)>>) {}
     ~Signal() { delete slots_; }
 
     // connects a member function to this Signal
@@ -54,8 +53,8 @@ public:
     // connects a std::function to the signal. The returned
     // value can be used to disconnect the function again
     int connect(std::function<void(Args...)> const& slot) const {
-        slots_->insert(std::make_pair(++current_id_, slot));
-        return current_id_;
+        slots_->insert(std::make_pair(++currentId_, slot));
+        return currentId_;
     }
 
     // disconnects a previously connected function
@@ -70,7 +69,6 @@ public:
 
     // calls all connected functions
     void emit(Args... p) {
-
         for(auto it : *slots_) {
             try {
                 it.second(p...);
@@ -82,7 +80,7 @@ public:
 
 private:
     mutable std::map<int, std::function<void(Args...)>> *slots_;
-    mutable int current_id_;
+    mutable int currentId_;
 };
 
 #endif
