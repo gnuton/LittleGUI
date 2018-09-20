@@ -151,3 +151,46 @@ TEST_CASE("Testing mutex for setParent ") {
     }
     //REQUIRE(count == 0); /// this check is not reliable
 }
+
+/*
+#include <future>
+bool isMutexLocked(std::mutex* m) {
+    std::cout << "TEST" << std::endl;
+    return !(std::async(std::launch::async, [&] { return m->try_lock(); }).get());
+}
+
+TEST_CASE("XXX") {
+    std::mutex m;
+    REQUIRE_FALSE(isMutexLocked(&m));
+    m.lock();
+    REQUIRE(isMutexLocked(&m));
+    m.unlock();
+    REQUIRE_FALSE(isMutexLocked(&m));
+}*/
+
+
+bool isMutexLocked(std::mutex* m) {
+    bool wasUnlocked;
+    std::thread t([&](){
+        wasUnlocked = m->try_lock();
+        // restore unlock state
+        if (wasUnlocked)
+            m->unlock();
+    });
+    t.join();
+    return !wasUnlocked;
+}
+
+TEST_CASE ("XXX2") {
+    std::mutex m;
+    REQUIRE_FALSE(isMutexLocked(&m));
+    m.lock();
+    REQUIRE(isMutexLocked(&m));
+    m.unlock();
+    REQUIRE_FALSE(isMutexLocked(&m));
+    REQUIRE_FALSE(isMutexLocked(&m));
+    m.lock();
+    REQUIRE(isMutexLocked(&m));
+    m.unlock();
+    REQUIRE_FALSE(isMutexLocked(&m));
+}

@@ -20,16 +20,17 @@ private:
     std::string msg_;
 };
 
-//TODO Use the lib way to run tearDown
-void tearDown() {
-    SingletonTest::destroyInstance();
-}
+namespace SingletonTestNS {
+    void tearDown() {
+        SingletonTest::destroyInstance();
+    }
+};
 
 TEST_CASE("Check Sinlgeton create instance returns a valid weak ptr") {
     auto s = SingletonTest::createInstance();
     REQUIRE_FALSE(s.expired());
     REQUIRE(s.lock()->methodA());
-    tearDown();
+    SingletonTestNS::tearDown();
 }
 
 TEST_CASE("Check Sinlgeton create instance with args returns a valid weak ptr") {
@@ -38,7 +39,7 @@ TEST_CASE("Check Sinlgeton create instance with args returns a valid weak ptr") 
     REQUIRE_FALSE(s.expired());
     REQUIRE(s.lock()->methodA());
     REQUIRE(s.lock()->methodB() == "AA");
-    tearDown();
+    SingletonTestNS::tearDown();
 }
 
 TEST_CASE("Check Sinlgeton get instance reurns a valid weak ptr") {
@@ -47,7 +48,7 @@ TEST_CASE("Check Sinlgeton get instance reurns a valid weak ptr") {
     auto w = SingletonTest::getInstance();
     REQUIRE_FALSE(w.expired());
     REQUIRE(w.lock()->methodA());
-    tearDown();
+    SingletonTestNS::tearDown();
 }
 
 TEST_CASE("Check Sinlgeton destroy instance") {
@@ -57,6 +58,6 @@ TEST_CASE("Check Sinlgeton destroy instance") {
     SingletonTest::destroyInstance();
     REQUIRE(s.expired());
     REQUIRE_THROWS_WITH(SingletonTest::getInstance(), "Please create an instance before calling getInstance");
-    tearDown();
+    SingletonTestNS::tearDown();
 }
 

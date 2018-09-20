@@ -45,9 +45,7 @@ private:
     std::string name_;
     std::weak_ptr<LGObject> parent_;
     std::set<std::shared_ptr<LGObject>> children_;
-
     std::mutex mtx_;
 };
-
 
 #endif //LITTLEGUI_LGOBJECT_H
