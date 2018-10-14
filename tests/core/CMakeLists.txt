@@ -1,7 +1,6 @@
 set(APP_NAME TestCore)
 
 find_package (Threads REQUIRED)
-
 # Add littlegui lib
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/src")
 find_package(LittleGUI REQUIRED)

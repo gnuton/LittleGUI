@@ -43,10 +43,11 @@ public:
 
 private:
     void writeToBuffer(const std::string msg);
+    void writeToTarget(const std::string msg);
 
-    const ushort _maxBufferSize = 128;
+    const ushort _maxNCharsPerLineInBuffer = 128;
     std::list<std::string> _logsBuffer;
-    const ushort _logsBufferSizeInLines = 20;
+    const ushort _maxNLinesInBuffer = 20; // TODO this may be hardware dependent. For now let's stick to something small.
     std::mutex _mtx;
 };
 

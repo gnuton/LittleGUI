@@ -13,10 +13,7 @@ install:
   - export VITASDK=/usr/local/vitasdk
   - export PATH=$VITASDK/bin:$PATH
   - cd ${TRAVIS_BUILD_DIR}
-  - git clone https://github.com/vitasdk/vdpm
-  - cd vdpm
-  - ./bootstrap-vitasdk.sh
-  - ./install-all.sh
+  - git clone https://github.com/vitasdk/vdpm && cd vdpm && ./bootstrap-vitasdk.sh && ./install-all.sh
   
 script:
   - cd ${TRAVIS_BUILD_DIR}

@@ -1,6 +1,7 @@
 SET(CMAKE_CXX_STANDARD 14)
 SET(LIB_NAME littlegui)
-MESSAGE("** Configuring ${LIB_NAME}")
+MESSAGE("** Configuring ${LIB_NAME} XXX ${TARGET_SRC_FILES}")
+
 
 ADD_LIBRARY(
         ${LIB_NAME}
@@ -10,7 +11,11 @@ ADD_LIBRARY(
         library.cpp
         library.h
         core/LGObject.cpp
-        core/LGObject.h core/Logger.cpp core/Logger.h core/Singleton.h)
+        core/LGObject.h
+        core/Logger.cpp
+        core/Logger.h
+        core/Singleton.h
+        ${TARGET_SRC_FILES})
 
 TARGET_LINK_LIBRARIES(
         ${LIB_NAME}
